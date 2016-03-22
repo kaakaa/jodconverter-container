@@ -2,7 +2,10 @@ FROM centos
 
 MAINTAINER kaakaa <stooner.hoe@gmail.com>
 
-RUN yum -y update
+
+RUN yum -y update && yum clean all
+RUN yum install -y ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts
+
 RUN yum -y update && \
 	yum -y install git java-1.7.0-openjdk libreoffice libreoffice-headless && \
 	yum -y clean all
