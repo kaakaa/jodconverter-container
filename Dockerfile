@@ -1,24 +1,22 @@
-FROM centos
-
+FROM anapsix/alpine-java
 MAINTAINER kaakaa <stooner.hoe@gmail.com>
 
+RUN apk update
 
-RUN yum -y update && yum clean all
-RUN yum install -y ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts
+RUN apk add wget unzip fontconfig libreoffice
+RUN wget -O ipa-font.zip 'https://osdn.jp/frs/redir.php?m=iij&f=%2Fipafonts%2F51868%2FIPAfont00303.zip'
+RUN mkdir /root/.fonts \
+  && unzip ipa-font.zip -d /root/.fonts \
+  && rm -fr ipa-font.zip
+RUN fc-cache -fv
 
-RUN yum -y update && \
-	yum -y install git java-1.7.0-openjdk libreoffice libreoffice-headless && \
-	yum -y clean all
-RUN curl -L http://sourceforge.net/projects/jodconverter/files/JODConverter/2.2.2/jodconverter-tomcat-2.2.2.zip/download \
-                -o /opt/jodconverter-tomcat-2.2.2.zip
-RUN unzip /opt/jodconverter-tomcat-2.2.2.zip -d /usr/local/src
-RUN rm -f /opt/jodconverter-tomcat-2.2.2.zip
+RUN wget -O jod-tomcat.zip 'http://sourceforge.net/projects/jodconverter/files/JODConverter/2.2.2/jodconverter-tomcat-2.2.2.zip/download'
+RUN unzip jod-tomcat.zip -d /usr/local/src \
+  && ln -s /usr/local/src/jodconverter-tomcat-2.2.2/bin/startup.sh /usr/bin/jod \
+  && rm jod-tomcat.zip
 
-RUN ln -s /usr/local/src/jodconverter-tomcat-2.2.2/bin/startup.sh /usr/bin/jod
-RUN cd /usr/local/src && echo '#!/bin/sh' >> start.sh
-RUN cd /usr/local/src && echo 'jod' >> start.sh
-RUN cd /usr/local/src && echo '/usr/bin/soffice --headless --accept="socket,port=8100;urp;"' >> start.sh
-RUN cd /usr/local/src && chmod +x start.sh
+ADD start /usr/bin/start-jod
+
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/local/src/start.sh"]
+ENTRYPOINT ["/bin/sh", "-c", "/usr/bin/start-jod"]
