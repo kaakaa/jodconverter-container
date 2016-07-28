@@ -1,6 +1,6 @@
 # jodconverter-container
 
-Dockerfile for container running [JODConverter as Web Application](http://www.artofsolving.com/node/14.html)
+docker container for [JODConverter as Web Application](http://www.artofsolving.com/node/14.html)
 
 ## DockerHub
 
