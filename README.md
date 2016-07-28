@@ -4,6 +4,6 @@ Dockerfile for container running [JODConverter as Web Application](http://www.ar
 
 ## DockerHub
 
-[https://hub.docker.com/r/kaakaa/jodconverter/~/settings/](https://hub.docker.com/r/kaakaa/jodconverter/~/settings/)
+[https://hub.docker.com/r/kaakaa/jodconverter](https://hub.docker.com/r/kaakaa/jodconverter)
 
 
