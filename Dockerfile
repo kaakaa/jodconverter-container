@@ -16,6 +16,7 @@ RUN unzip jod-tomcat.zip -d /usr/local/src \
   && rm jod-tomcat.zip
 
 ADD start /usr/bin/start-jod
+ADD applicationContext.xml /usr/local/src/jodconverter-tomcat-2.2.2/webapps/converter/WEB-INF/applicationContext.xml
 
 EXPOSE 8080
 
